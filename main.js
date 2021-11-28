@@ -1,9 +1,7 @@
 let choices = ["Rock", "Paper", "Scissors"];
 
-window.onload = function () {
   for (let i = 0; i < 5; i++) {
     game();
-  }
 };
 
 function game() {
@@ -19,7 +17,7 @@ function computerSelection() {
 }
 
 function playerSelection() {
-  let playerChoise = parseInt(prompt("Choose Rock 0, Paper 1, Scissors 2"));
+  // let playerChoise = parseInt(prompt("Choose Rock 0, Paper 1, Scissors 2"));
   return choices[playerChoise];
 }
 
