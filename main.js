@@ -63,6 +63,8 @@ class RPS {
   restartGame() {
     this.playerScore = 0;
     this.computerScore = 0;
+    this.playerScoreLabel.innerText = this.playerScore;
+    this.computerScoreLabel.innerText = this.computerScore;
     this.isWinner = false;
     this.instructionLabel.style.visibility = "visible";
     this.instructionLabel.innerHTML = 'Make your selection';
