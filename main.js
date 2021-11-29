@@ -1,5 +1,4 @@
 window.onload = () => {
-
   let rps = new RPS();
 
   let rock = document.getElementById("rock");
@@ -7,21 +6,34 @@ window.onload = () => {
   let scissors = document.getElementById("scissors");
 
   rock.addEventListener("click", function () {
-    console.log(rps.playRound("Rock"));
+    rps.playRound("Rock");
   });
 
   paper.addEventListener("click", function () {
-    console.log(rps.playRound("Paper"));
+    rps.playRound("Paper");
   });
 
   scissors.addEventListener("click", function () {
-    console.log(rps.playRound("Scissors"));
+    rps.playRound("Scissors");
   });
 };
 
 class RPS {
-
   choices = ["Rock", "Paper", "Scissors"];
+  playerScore = 0;
+  computerScore = 0;
+
+  playerScoreLabel;
+  computerScoreLabel;
+  resultLabel;
+
+  isWinner = false;
+
+  constructor() {
+    this.playerScoreLabel = document.getElementById("playerScore");
+    this.computerScoreLabel = document.getElementById("computerScore");
+    this.resultLabel = document.getElementById("result");
+  }
 
   computerSelection() {
     let randomChoice = parseInt(Math.random() * this.choices.length);
@@ -29,42 +41,61 @@ class RPS {
   }
 
   playRound(playerChoice) {
-    let computerChoice = this.computerSelection();
+    if (this.isWinner === false) {
+      let computerChoice = this.computerSelection();
 
-    if (computerChoice == "Rock" && playerChoice == "Rock") {
-      return "Draw! You both chose Rock";
-    }
+      if (computerChoice == "Rock" && playerChoice == "Rock") {
+        this.resultLabel.innerText = "Draw! You both chose Rock";
+      }
 
-    if (computerChoice == "Rock" && playerChoice == "Paper") {
-      return "You win! Paper beats Rock";
-    }
+      if (computerChoice == "Rock" && playerChoice == "Paper") {
+        this.playerScore += 1;
+        this.resultLabel.innerText = "You win! Paper beats Rock";
+      }
 
-    if (computerChoice == "Rock" && playerChoice == "Scissors") {
-      return "You lose! Rock beats Paper";
-    }
+      if (computerChoice == "Rock" && playerChoice == "Scissors") {
+        this.computerScore += 1;
+        this.resultLabel.innerText = "You lose! Rock beats Paper";
+      }
 
-    if (computerChoice == "Paper" && playerChoice == "Rock") {
-      return "You lose! Paper beats Rock";
-    }
+      if (computerChoice == "Paper" && playerChoice == "Rock") {
+        this.computerScore += 1;
+        this.resultLabel.innerText = "You lose! Paper beats Rock";
+      }
 
-    if (computerChoice == "Paper" && playerChoice == "Paper") {
-      return "Draw! You both chose Paper";
-    }
+      if (computerChoice == "Paper" && playerChoice == "Paper") {
+        this.resultLabel.innerText = "Draw! You both chose Paper";
+      }
 
-    if (computerChoice == "Paper" && playerChoice == "Scissors") {
-      return "You win! Scissors beat Paper";
-    }
+      if (computerChoice == "Paper" && playerChoice == "Scissors") {
+        this.playerScore += 1;
+        this.resultLabel.innerText = "You win! Scissors beat Paper";
+      }
 
-    if (computerChoice == "Scissors" && playerChoice == "Rock") {
-      return "You win! Rock beats Scissors";
-    }
+      if (computerChoice == "Scissors" && playerChoice == "Rock") {
+        this.playerScore += 1;
+        this.resultLabel.innerText = "You win! Rock beats Scissors";
+      }
 
-    if (computerChoice == "Scissors" && playerChoice == "Paper") {
-      return "You lose! Scissors beat Paper";
-    }
+      if (computerChoice == "Scissors" && playerChoice == "Paper") {
+        this.computerScore += 1;
+        this.resultLabel.innerText = "You lose! Scissors beat Paper";
+      }
 
-    if (computerChoice == "Scissors" && playerChoice == "Scissors") {
-      return "Draw! You both chose Scissors";
+      if (computerChoice == "Scissors" && playerChoice == "Scissors") {
+        this.resultLabel.innerText = "Draw! You both chose Scissors";
+      }
+
+      this.playerScoreLabel.innerText = this.playerScore;
+      this.computerScoreLabel.innerText = this.computerScore;
+
+      if (this.playerScore >= 5) {
+        this.resultLabel.innerText = "You have won! Computer lose!";
+        this.isWinner = true;
+      } else if (this.computerScore >= 5) {
+        this.resultLabel.innerText = "Computer have won! You lose!";
+        this.isWinner = true;
+      }
     }
   }
 }
