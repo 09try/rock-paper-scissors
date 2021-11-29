@@ -5,6 +5,8 @@ window.onload = () => {
   let paper = document.getElementById("paper");
   let scissors = document.getElementById("scissors");
 
+  let playAgainBtn = document.getElementById("playAgain");
+
   rock.addEventListener("click", function () {
     rps.playRound("Rock");
   });
@@ -16,6 +18,10 @@ window.onload = () => {
   scissors.addEventListener("click", function () {
     rps.playRound("Scissors");
   });
+
+  playAgainBtn.addEventListener("click", function () {
+    rps.restartGame();
+  });
 };
 
 class RPS {
@@ -26,6 +32,8 @@ class RPS {
   playerScoreLabel;
   computerScoreLabel;
   resultLabel;
+  instructionLabel;
+  playAgainBtn;
 
   isWinner = false;
 
@@ -33,11 +41,33 @@ class RPS {
     this.playerScoreLabel = document.getElementById("playerScore");
     this.computerScoreLabel = document.getElementById("computerScore");
     this.resultLabel = document.getElementById("result");
+    this.playAgainBtn = document.getElementById("playAgain");
+    this.playAgainBtn.innerHTML = 'Play Again';
+    this.playAgainBtn.style.visibility = "hidden";
+
+    this.instructionLabel = document.getElementById("instruction");
+    this.instructionLabel.innerHTML = 'Make your selection';
+    this.instructionLabel.style.visibility = "visible";
   }
 
   computerSelection() {
     let randomChoice = parseInt(Math.random() * this.choices.length);
     return this.choices[randomChoice];
+  }
+
+  endGame() {
+    this.instructionLabel.style.visibility = "hidden";
+    this.playAgainBtn.style.visibility = "visible";
+  }
+
+  restartGame() {
+    this.playerScore = 0;
+    this.computerScore = 0;
+    this.isWinner = false;
+    this.instructionLabel.style.visibility = "visible";
+    this.instructionLabel.innerHTML = 'Make your selection';
+    this.playAgainBtn.style.visibility = "hidden";
+    this.resultLabel.innerHTML = '';
   }
 
   playRound(playerChoice) {
@@ -90,11 +120,13 @@ class RPS {
       this.computerScoreLabel.innerText = this.computerScore;
 
       if (this.playerScore >= 5) {
-        this.resultLabel.innerText = "You have won! Computer lose!";
+        this.resultLabel.innerText = "You have won! Computer lost.";
         this.isWinner = true;
+        this.endGame();
       } else if (this.computerScore >= 5) {
-        this.resultLabel.innerText = "Computer have won! You lose!";
+        this.resultLabel.innerText = "You lost! Computer have won.";
         this.isWinner = true;
+        this.endGame();
       }
     }
   }
